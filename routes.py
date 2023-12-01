@@ -40,10 +40,10 @@ def getHistorial(minumero):
             temp = cuenta.historial()
     for cuenta in BD:    
         for i in range (len(temp)): #operaciones
-            if temp[i][0] == cuenta.numero and cuenta.numero != minumero:
+            if temp[i][0] == cuenta.numero:
                 mensajes.append("Pago realizado de "+ str(temp[i][1])+ " a " + cuenta.nombre)
-            if temp[i][0] == cuenta.numero and cuenta.numero == minumero:
-                mensajes.append("Pago recibido de"+ str(temp[i][1])+ "de" )
+            if temp[i][0] == str("D"+cuenta.numero):
+                mensajes.append("Pago recibido de "+ str(temp[i][1])+ " de " + cuenta.nombre)
 
     return mensajes
 
@@ -55,7 +55,7 @@ def realizarPago(minumero, numeroDestino, valor):
             mensaje = cuenta.pagar(numeroDestino, valor)
         if cuenta.numero == numeroDestino:
             cuenta.saldo += valor  
-            cuenta.operaciones.append(operacion(numeroDestino, datetime.now(), valor))
+            cuenta.operaciones.append(operacion(str("D"+minumero), datetime.now(), valor)) #Modifica para el numeroDestino Tenga un D antes del numero esto implicaria que es ingreso
 
     return mensaje
 
